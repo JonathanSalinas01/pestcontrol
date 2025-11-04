@@ -93,6 +93,11 @@
                 <div class="col-md-3 mb-4">
                     <h6 class="fw-bold mb-4 fs-2">PestControl</h6>
                     <p class="fs-5">Modernizando el control de plagas con tecnología y profesionalismo.</p>
+                    <div>
+                        <a href="#!" class="text-white me-4"><i class="fab fa-facebook-f fs-4"></i></a>
+                        <a href="#!" class="text-white me-4"><i class="fab fa-twitter fs-4"></i></a>
+                        <a href="#!" class="text-white me-4"><i class="fab fa-instagram fs-4"></i></a>
+                    </div>
                 </div>
 
                 <!-- Columna centro -->
