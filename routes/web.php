@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ServiciosController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ClientesController;
 
 Route::get('/', function () {
     return view('index');
@@ -32,3 +33,8 @@ Route::get('/cotizar', function () {
 Route::get('/productos', [ProductoController::class, 'index'])->name('productos');
 
 Route::get('/servicios', [ServiciosController::class, 'index'])->name('servicios');
+
+Route::get('/crearCuenta', function () {
+    return view('crearCuenta');
+})->name('crearCuenta');
+
