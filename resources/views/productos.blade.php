@@ -38,18 +38,19 @@
             <h2 class="text-center">Adquiera los mismos productos de calidad profesional que usamos en nuestros
                 servicios.</h2>
         </section>
-        <section>
-            <article>
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ asset('images/pesticida.png') }}" class="card-img-top" alt="Pesticida">
+        <section class="d-flex justify-content-center">
+
+            @foreach ($productos as $producto)
+                 <article>
+                <div class="card m-3" style="width: 18rem;">
+                    <img src="{{ $producto->imagen }}" class="card-img-top" alt="Pesticida">
                     <div class="card-body p-3">
-                        <h5 class="card-title fw-bolder">Pesticida Concentrado (1L)</h5>
-                        <span class="fs-6">stock: 20</span>
-                        <p class="card-text mt-2">Fórmula profesional para el control de amplio espectro de insectos.
-                        </p>
+                        <h5 class="card-title fw-bolder">{{ $producto->nombre }}</h5>
+                        <span class="fs-6">stock: {{ $producto->stock }}</span>
+                        <p class="card-text mt-2">{{ $producto->descripcion }}</p>
 
                         <div class="text-end">
-                            <a href="#" class="btn btn-light border border-dark-subtle disabled">$2500.00</a>
+                            <a href="#" class="btn btn-light border border-dark-subtle disabled">${{ $producto->precio }}</a>
                             <a href="#" class="btn btn-success">Comprar</a>
                         </div>
 
@@ -58,6 +59,8 @@
 
 
             </article>
+            @endforeach
+           
         </section>
     </main>
     <footer>
