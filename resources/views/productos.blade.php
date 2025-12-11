@@ -38,30 +38,45 @@
             <h2 class="text-center">Adquiera los mismos productos de calidad profesional que usamos en nuestros
                 servicios.</h2>
         </section>
-        <section class="d-flex justify-content-center">
+    <section class="container mt-5"> {{-- Agregamos container para centrar y dar margen --}}
+    
+    <div class="row"> {{-- La fila que contiene las columnas --}}
 
-            @foreach ($productos as $producto)
-                 <article>
-                <div class="card m-3" style="width: 18rem;">
-                    <img src="{{ $producto->imagen }}" class="card-img-top" alt="Pesticida">
-                    <div class="card-body p-3">
-                        <h5 class="card-title fw-bolder">{{ $producto->nombre }}</h5>
-                        <span class="fs-6">stock: {{ $producto->stock }}</span>
-                        <p class="card-text mt-2">{{ $producto->descripcion }}</p>
+        @foreach ($productos as $producto)
+            {{-- Cada producto ocupa 4 espacios (3 productos x 4 espacios = 12 total) --}}
+            {{-- mb-4 agrega espacio debajo de cada tarjeta para que no se peguen las filas --}}
+            <div class="col-12 col-md-4 mb-4"> 
+                
+                <article class="h-100"> {{-- h-100 hace que todas las tarjetas tengan la misma altura --}}
+                    <div class="card h-100 shadow-sm"> {{-- Quitamos el width fijo --}}
+                        
+                        {{-- Imagen con ajuste para que no deforme la tarjeta --}}
+                        <img src="{{ $producto->imagen }}" class="card-img-top" alt="Pesticida" 
+                             style="height: 200px; object-fit: cover;">
+                        
+                        <div class="card-body p-3 d-flex flex-column">
+                            <h5 class="card-title fw-bolder">{{ $producto->nombre }}</h5>
+                            <span class="fs-6 text-muted">Stock: {{ $producto->stock }}</span>
+                            
+                            <p class="card-text mt-2 flex-grow-1">
+                                {{ Str::limit($producto->descripcion, 80) }} {{-- Opcional: limita texto largo --}}
+                            </p>
 
-                        <div class="text-end">
-                            <a href="#" class="btn btn-light border border-dark-subtle disabled">${{ $producto->precio }}</a>
-                            <a href="#" class="btn btn-success">Comprar</a>
+                            <div class="text-end mt-3">
+                                <a href="#" class="btn btn-light border border-dark-subtle disabled">
+                                    ${{ $producto->precio }}
+                                </a>
+                                <a href="#" class="btn btn-success">Comprar</a>
+                            </div>
                         </div>
-
                     </div>
-                </div>
+                </article>
+                
+            </div>
+        @endforeach
 
-
-            </article>
-            @endforeach
-           
-        </section>
+    </div>
+</section>
     </main>
     <footer>
         <section class="azul-footer text-white text-center text-md-start mt-5 py-4">

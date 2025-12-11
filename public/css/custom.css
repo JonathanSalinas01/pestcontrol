@@ -1,3 +1,13 @@
 .azul-footer {
     background-color: #1F2937;
 }
+.brand-link .brand-image-custom {
+    max-height: 50px !important; /* Aumenta este valor según necesites */
+    width: auto;                  /* Mantiene la proporción */
+    margin-top: -10px;            /* Ajusta esto para centrarlo verticalmente si crece mucho */
+}
+
+/* Opcional: Ajustar el tamaño de la barra de navegación si el logo es muy grande */
+.main-header {
+    /* max-height: ...; solo si el logo empuja demasiado el menú */
+}
