@@ -16,7 +16,7 @@
                 <a href="#" class="btn btn-success btn-sm">Agregar nuevo producto</a>
             </li>
             <li class="list-inline-item">
-                <a href="#" class="btn btn-outline-secondary btn-sm">Actualizar Stock</a>
+                <a href="{{ route('panelActualizarStock') }}" class="btn btn-outline-secondary btn-sm">Actualizar Stock</a>
             </li>
         </ul>
     </div>

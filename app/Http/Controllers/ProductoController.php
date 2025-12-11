@@ -42,4 +42,32 @@ class ProductoController extends Controller
         // 3. Redireccionar al usuario (recargar la página)
         return redirect()->route('productos')->with('success', 'Producto agregado correctamente');
     }
+
+    // --- Agrega estas funciones al final de tu clase ProductoController ---
+
+    public function verPanelStock()
+    {
+        // Traemos todos los productos
+        $productos = Productos::all();
+        return view('panelActualizarStock', compact('productos'));
+    }
+
+    public function actualizarStock(Request $request, $id)
+    {
+        // 1. Validar que sea un número
+        $request->validate([
+            'nuevo_stock' => 'required|integer|min:0'
+        ]);
+
+        // 2. Buscar producto (Asegurate que tu primary key sea 'id' o ajusta esta linea)
+        // Si tu primary key es 'id_producto', usa: findOrFail($id) o where(...)->first()
+        $producto = Productos::findOrFail($id);
+
+        // 3. Actualizar
+        $producto->stock = $request->input('nuevo_stock');
+        $producto->save();
+
+        // 4. Volver atrás con mensaje
+        return redirect()->route('panelActualizarStock')->with('success', 'Stock actualizado correctamente.');
+    }
 }

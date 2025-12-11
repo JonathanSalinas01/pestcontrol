@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Servicios extends Model
 {
     protected $table = 'servicios';
-    protected $primaryKey = 'id_servicio';
+    protected $primaryKey = 'id_servicios';
     public $timestamps = false; // si tu tabla no tiene created_at y updated_at
 
     protected $fillable = [

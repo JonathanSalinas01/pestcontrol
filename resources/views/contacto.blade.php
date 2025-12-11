@@ -39,25 +39,57 @@
         <section class="container mt-5 mb-5">
             <div class="row justify-content-center align-items-start">
 
-                <!-- Formulario (columna izquierda) -->
                 <div class="col-md-6 mb-4">
-                    <form action="" method="post" class="p-3 border rounded shadow-sm">
+                    
+                    {{-- MENSAJE DE ÉXITO --}}
+                    @if (session('info'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>¡Éxito!</strong> {{ session('info') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    {{-- INICIO DEL FORMULARIO --}}
+                    {{-- Agregamos la ruta en el action --}}
+                    <form action="{{ route('contacto.store') }}" method="POST" class="p-3 border rounded shadow-sm">
+                        
+                        {{-- TOKEN DE SEGURIDAD OBLIGATORIO --}}
+                        @csrf
+
                         <label for="nombre" class="fw-bold fs-5">Nombre completo</label>
-                        <input type="text" class="form-control mb-3" id="nombre" name="nombre"
-                            placeholder="Ingrese su nombre completo">
+                        <input type="text" class="form-control mb-3 @error('nombre') is-invalid @enderror" 
+                               id="nombre" name="nombre" value="{{ old('nombre') }}"
+                               placeholder="Ingrese su nombre completo">
+                        
+                        {{-- Mostrar error de validación --}}
+                        @error('nombre')
+                            <span class="text-danger small">{{ $message }}</span>
+                        @enderror
 
                         <label for="email" class="fw-bold fs-5">Correo electrónico</label>
-                        <input type="email" class="form-control mb-3" id="email" name="email"
-                            placeholder="Ingrese su correo electrónico">
+                        <input type="email" class="form-control mb-3 @error('email') is-invalid @enderror" 
+                               id="email" name="email" value="{{ old('email') }}"
+                               placeholder="Ingrese su correo electrónico">
+
+                        @error('email')
+                            <span class="text-danger small">{{ $message }}</span>
+                        @enderror
 
                         <label for="mensaje" class="fw-bold fs-5">Mensaje</label>
-                        <textarea class="form-control mb-3" id="mensaje" name="mensaje" rows="4" placeholder="Escriba su mensaje aquí"></textarea>
+                        <textarea class="form-control mb-3 @error('mensaje') is-invalid @enderror" 
+                                  id="mensaje" name="mensaje" rows="4" 
+                                  placeholder="Escriba su mensaje aquí">{{ old('mensaje') }}</textarea>
+
+                        @error('mensaje')
+                            <span class="text-danger small">{{ $message }}</span>
+                        @enderror
 
                         <button type="submit" class="btn btn-success w-100 mt-2">Enviar mensaje</button>
                     </form>
+                    {{-- FIN DEL FORMULARIO --}}
+
                 </div>
 
-                <!-- Otras formas de contacto (columna derecha) -->
                 <div class="col-md-5 text-center">
                     <h2 class="fw-bold mb-4">Otras formas de contactarnos</h2>
 

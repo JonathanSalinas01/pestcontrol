@@ -5,8 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ServiciosController;
 use App\Http\Controllers\CotizarController;
+use App\Http\Controllers\CotizacionController;
+use App\Http\Controllers\ContactoController;
 
-
+// --- VISTAS ESTÁTICAS (Sin lógica compleja) ---
 Route::get('/', function () {
     return view('index');
 })->name('home');
@@ -15,51 +17,48 @@ Route::get('/acerca', function () {
     return view('acerca');
 })->name('acerca');
 
-Route::get('/servicios', function () {
-    return view('servicios');
-})->name('servicios');
-
-Route::get('/productos', function () {
-    return view('productos');
-})->name('productos');
-
-Route::get('/contacto', function () {
-    return view('contacto');
-})->name('contacto');
-
-Route::get('/cotizar', function () {
-    return view('cotizar');
-})->name('cotizar');
-
-Route::get('/panelProductos', function () {
-    return view('panelProductos');
-})->name('panelProductos');
-
-Route::get('/panelCotizaciones', function () {
-    return view('panelCotizaciones');
-})->name('panelCotizaciones');
-
 Route::get('/panelReportes', function () {
     return view('panelReportes');
 })->name('panelReportes');
-
-// routes/web.php
-Route::get('/productos', [ProductoController::class, 'index'])->name('productos');
-Route::post('/productos', [ProductoController::class, 'store'])->name('productos.store');
-
-Route::get('/servicios', [ServiciosController::class, 'index'])->name('servicios');
-
-Route::get('/cotizar', [CotizarController::class, 'index'])->name('cotizar');
-
-// Ruta para PROCESAR el formulario (POST) <--- ¡ESTA ES LA QUE TE FALTA!
-Route::post('/cotizar', [CotizarController::class, 'calcular'])->name('cotizar.calcular');
-
-
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// --- RUTAS CON CONTROLADORES (Lógica de negocio) ---
+
+// 1. Productos
+Route::get('/productos', [ProductoController::class, 'index'])->name('productos');
+Route::post('/productos', [ProductoController::class, 'store'])->name('productos.store');
+
+// 2. Servicios
+Route::get('/servicios', [ServiciosController::class, 'index'])->name('servicios');
+
+// 3. Contacto
+Route::get('/contacto', [ContactoController::class, 'index'])->name('contacto');
+Route::post('/contacto', [ContactoController::class, 'store'])->name('contacto.store');
+
+// 4. Cotizar (ESTA ES LA IMPORTANTE)
+Route::get('/cotizar', [CotizarController::class, 'index'])->name('cotizar');
+Route::post('/cotizar', [CotizarController::class, 'calcular'])->name('cotizar.calcular');
+Route::post('/cotizar/guardar', [CotizacionController::class, 'store'])->name('cotizar.guardar');
+
+// 5. Paneles de Administración
+Route::get('/panelProductos', function () {
+    return view('panelProductos'); // Si esta vista necesita datos, deberías crear un controlador
+})->name('panelProductos');
+
+Route::get('/panelCotizaciones', [CotizacionController::class, 'index'])->name('panelCotizaciones');
+
+Route::patch('/cotizaciones/{id}/estado', [CotizacionController::class, 'updateStatus'])
+    ->name('cotizaciones.updateStatus');
+
+// 6. Actualizar Stock
+Route::get('/panelActualizarStock', [ProductoController::class, 'verPanelStock'])->name('panelActualizarStock');
+Route::patch('/productos/{id}/stock', [ProductoController::class, 'actualizarStock'])->name('productos.actualizarStock');
+
+
+// --- RUTAS DE AUTENTICACIÓN ---
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -67,4 +66,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-

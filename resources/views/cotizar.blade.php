@@ -56,42 +56,42 @@
                 </div>
             @endif
 
-                {{-- 1. CAMBIO AQUÍ: Agregamos la ruta y el método POST --}}
-                <form action="{{ route('cotizar.calcular') }}" method="post" class="w-75 d-flex flex-column gap-4">
+            {{-- 1. CAMBIO AQUÍ: Agregamos la ruta y el método POST --}}
+            <form action="{{ route('cotizar.calcular') }}" method="post" class="w-75 d-flex flex-column gap-4">
 
-                    {{-- 2. CAMBIO AQUÍ: Token de seguridad obligatorio en Laravel --}}
-                    @csrf
+                {{-- 2. CAMBIO AQUÍ: Token de seguridad obligatorio en Laravel --}}
+                @csrf
 
-                    <label for="espacio" class="fw-bold fs-4">1. Tipo de espacio</label>
-                    <select class="form-select" aria-label="Default select example" name="espacio" required>
-                        <option selected disabled value="">Seleccionar tipo de espacio</option>
-                        @foreach ($servicios as $servicio)
-                            <option value="{{ $servicio->id_servicio }}">{{ $servicio->nombre }}</option>
-                        @endforeach
-                    </select>
+                <label for="espacio" class="fw-bold fs-4">1. Tipo de espacio</label>
+                <select class="form-select" aria-label="Default select example" name="espacio" required>
+                    <option selected disabled value="">Seleccionar tipo de espacio</option>
+                    @foreach ($servicios as $servicio)
+                        <option value="{{ $servicio->id_servicios }}">{{ $servicio->nombre }}</option>
+                    @endforeach
+                </select>
 
-                    <label for="tamaño" class="fw-bold fs-4">2. Tamaño del lugar (en m^2)</label>
-                    <input type="number" class="form-control" id="tamaño" name="tamaño"
-                        placeholder="Ingrese el tamaño en m^2. Ejemplo: 50" required>
+                <label for="tamaño" class="fw-bold fs-4">2. Tamaño del lugar (en m^2)</label>
+                <input type="number" class="form-control" id="tamaño" name="tamaño"
+                    placeholder="Ingrese el tamaño en m^2. Ejemplo: 50" required>
 
-                    <label class="fw-bold fs-4 mb-3">3. Seleccione las plagas detectadas</label>
+                <label class="fw-bold fs-4 mb-3">3. Seleccione las plagas detectadas</label>
 
-                    <div class="row g-3">
-                        @foreach ($plagas as $plaga)
-                            <div class="col-6 col-md-4 col-lg-3">
-                                <input type="checkbox" class="btn-check" name="plagas[]" value="{{ $plaga->id_plaga }}"
-                                    id="plaga_{{ $plaga->id_plaga }}" autocomplete="off">
+                <div class="row g-3">
+                    @foreach ($plagas as $plaga)
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <input type="checkbox" class="btn-check" name="plagas[]" value="{{ $plaga->id_plaga }}"
+                                id="plaga_{{ $plaga->id_plaga }}" autocomplete="off">
 
-                                <label
-                                    class="btn btn-outline-success w-100 py-3 h-100 d-flex flex-column align-items-center justify-content-center"
-                                    for="plaga_{{ $plaga->id_plaga }}">
-                                    <span class="fw-bold">{{ $plaga->plaga }}</span>
-                                </label>
-                            </div>
-                        @endforeach
-                    </div>
-                    <button type="submit" class="btn btn-success mt-3 w-100">Obtener cotización</button>
-                </form>
+                            <label
+                                class="btn btn-outline-success w-100 py-3 h-100 d-flex flex-column align-items-center justify-content-center"
+                                for="plaga_{{ $plaga->id_plaga }}">
+                                <span class="fw-bold">{{ $plaga->plaga }}</span>
+                            </label>
+                        </div>
+                    @endforeach
+                </div>
+                <button type="submit" class="btn btn-success mt-3 w-100">Obtener cotización</button>
+            </form>
         </section>
     </main>
     <footer>
@@ -151,7 +151,15 @@
                 </div>
                 <div class="modal-footer justify-content-center">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
-                    <a href="{{ route('contacto') }}" class="btn btn-primary">Agendar Ahora</a>
+
+                    {{-- FORMULARIO OCULTO PARA GUARDAR --}}
+                    <form action="{{ route('cotizar.guardar') }}" method="POST">
+                        @csrf
+                        {{-- Aquí pasamos el precio que está en la sesión al controlador --}}
+                        <input type="hidden" name="precio_estimado" value="{{ session('precio_calculado') }}">
+
+                        <button type="submit" class="btn btn-primary">Agendar Ahora</button>
+                    </form>
                 </div>
             </div>
         </div>
